@@ -2,7 +2,7 @@
   "manifestVersion": 2,
   "id": "prompt-studio",
   "name": "提示词工坊",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "三档提示词优化：基础优化、专业优化、步骤化规划。默认不注入角色设定，结果只在你要用时才进对话。",
   "entry": "index.js",
   "capabilities": [
@@ -38,6 +38,6 @@
       ]
     }
   },
-  "icon": "assets/icon.svg",
+  "icon": "assets/icon.png",
   "minAppVersion": "0.1050.9"
 }
