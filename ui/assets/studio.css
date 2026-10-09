@@ -1,0 +1,448 @@
+/* assets/studio.css — 提示词工坊主界面样式
+   颜色全部走 Hana 主题变量，并在变量缺失时退回一套中性色，保证脱离宿主也能看。 */
+
+:root {
+  --ps-bg: var(--bg-card, var(--bg, #ffffff));
+  --ps-bg-soft: color-mix(in srgb, var(--text, #222) 4%, transparent);
+  --ps-border: color-mix(in srgb, var(--text, #222) 14%, transparent);
+  --ps-border-strong: color-mix(in srgb, var(--text, #222) 24%, transparent);
+  --ps-ink: var(--text, #26262b);
+  --ps-ink-soft: var(--text-light, #5a5a66);
+  --ps-ink-faint: var(--text-muted, #8b8b96);
+  --ps-accent: var(--accent, #3f6fd8);
+  --ps-accent-hover: var(--accent-hover, var(--accent, #3560bd));
+  --ps-on-accent: #ffffff;
+  --ps-danger: var(--danger, #c8473f);
+  --ps-radius: var(--r-md, 10px);
+  --ps-font: var(--font-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif);
+  --ps-mono: var(--font-mono, ui-monospace, "Cascadia Mono", Consolas, monospace);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--ps-bg);
+  color: var(--ps-ink);
+  font-family: var(--ps-font);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* 内容比宿主给的高度高时，让文档自己滚，而不是把中间那块挤成 0 */
+body { overflow-y: auto; }
+
+#root { min-height: 100%; }
+
+/* 用 min-height 而不是 height：宿主给的空间不够时，整页变高并滚动，
+   而不是把子项压扁（结果区被压成 0 就是 height 的锅）。 */
+.ps-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* ── 档位切换 ───────────────────────────────────────────── */
+.ps-modes {
+  display: flex;
+  gap: 4px;
+  padding: 12px 14px 6px;
+  flex: 0 0 auto;
+}
+
+.ps-mode {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid var(--ps-border);
+  background: transparent;
+  color: var(--ps-ink-soft);
+  border-radius: var(--ps-radius);
+  padding: 7px 6px 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s var(--ease, ease), color 0.15s var(--ease, ease),
+    border-color 0.15s var(--ease, ease);
+}
+
+.ps-mode:hover { background: var(--ps-bg-soft); color: var(--ps-ink); }
+
+.ps-mode[aria-selected="true"] {
+  background: var(--ps-accent);
+  border-color: var(--ps-accent);
+  color: var(--ps-on-accent);
+}
+
+.ps-mode-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  font-weight: 400;
+  opacity: 0.72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ps-hint {
+  padding: 4px 15px 0;
+  font-size: 11.5px;
+  color: var(--ps-ink-faint);
+  flex: 0 0 auto;
+  min-height: 18px;
+}
+
+/* ── 输入区 ─────────────────────────────────────────────── */
+.ps-editor {
+  padding: 8px 14px 0;
+  flex: 0 0 auto;
+}
+
+.ps-textarea {
+  width: 100%;
+  min-height: 96px;
+  max-height: 240px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  background: transparent;
+  color: var(--ps-ink);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+  outline: none;
+  transition: border-color 0.15s var(--ease, ease);
+}
+
+.ps-textarea:focus { border-color: var(--ps-accent); }
+.ps-textarea::placeholder { color: var(--ps-ink-faint); }
+
+.ps-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 10px;
+  flex: 0 0 auto;
+}
+
+.ps-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ps-ink-soft);
+  cursor: pointer;
+  user-select: none;
+}
+
+.ps-switch input { accent-color: var(--ps-accent); margin: 0; }
+
+.ps-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--ps-ink-faint);
+  font-family: var(--ps-mono);
+}
+
+.ps-btn {
+  border: 1px solid var(--ps-border-strong);
+  background: transparent;
+  color: var(--ps-ink);
+  border-radius: var(--ps-radius);
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.15s var(--ease, ease);
+}
+
+.ps-btn:hover { background: var(--ps-bg-soft); }
+.ps-btn:disabled { opacity: 0.45; cursor: default; }
+
+.ps-btn-primary {
+  background: var(--ps-accent);
+  border-color: var(--ps-accent);
+  color: var(--ps-on-accent);
+  font-weight: 600;
+  padding: 6px 18px;
+}
+
+.ps-btn-primary:hover:not(:disabled) { background: var(--ps-accent-hover); }
+
+/* ── 结果区 ─────────────────────────────────────────────── */
+/* min-height 是硬底线：面板只有 460px 时，之前的 min-height:0 允许 flex
+   把整块压到 0，再被 overflow:hidden 裁掉，于是只剩标题栏和复制按钮。
+   这个数要装得下：标题栏 + 结果正文 + 底部「继续改」那一行。 */
+.ps-result {
+  flex: 1 1 auto;
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 14px 10px;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  overflow: hidden;
+}
+
+.ps-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--ps-bg-soft);
+  border-bottom: 1px solid var(--ps-border);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ps-ink-soft);
+  flex: 0 0 auto;
+}
+
+.ps-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ps-accent) 16%, transparent);
+  color: var(--ps-accent);
+}
+
+.ps-head-tools { margin-left: auto; display: flex; gap: 6px; }
+
+.ps-out {
+  flex: 1 1 auto;
+  min-height: 126px;
+  max-height: 46vh;
+  overflow: auto;
+  padding: 10px 12px;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--ps-font);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--ps-ink);
+}
+
+.ps-out[data-empty="true"] { color: var(--ps-ink-faint); }
+
+/* ── 原文/结果对比 ─────────────────────────────────────── */
+/* hidden 要能压过 display:flex，否则切回结果视图时对比还杵在那儿 */
+.ps-diff[hidden] { display: none; }
+
+.ps-diff {
+  flex: 1 1 auto;
+  min-height: 126px;
+  max-height: 46vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ps-diff-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--ps-border);
+  background: var(--ps-bg-soft);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ps-ink-faint);
+}
+
+.ps-diff-head span { padding: 3px 10px; }
+.ps-diff-head span:first-child { border-right: 1px solid var(--ps-border); }
+
+/* 左右两栏在同一个滚动容器里，天然同步，不需要去同步两个 scrollTop */
+.ps-diff-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  font-family: var(--ps-mono);
+  font-size: 11.5px;
+  line-height: 1.65;
+}
+
+/* grid 会让同一行的左右两格自动等高，行就不会错位 */
+.ps-diff-row { display: grid; grid-template-columns: 1fr 1fr; }
+
+.ps-diff-cell {
+  padding: 1px 10px;
+  min-height: 1.65em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ps-diff-cell:first-child { border-right: 1px solid var(--ps-border); }
+
+/* 只给改动的行上色，没动的行安安静静地当背景 */
+.ps-diff-row[data-type="del"] .ps-diff-cell:first-child,
+.ps-diff-row[data-type="change"] .ps-diff-cell:first-child {
+  background: color-mix(in srgb, var(--ps-danger) 13%, transparent);
+}
+
+.ps-diff-row[data-type="add"] .ps-diff-cell:last-child,
+.ps-diff-row[data-type="change"] .ps-diff-cell:last-child {
+  background: color-mix(in srgb, #2f8f4e 15%, transparent);
+}
+
+.ps-diff-cell[data-empty="true"] { background: var(--ps-bg-soft); }
+
+/* ── 继续改（迭代改进） ──────────────────────────────── */
+.ps-iterate[hidden] { display: none; }
+
+.ps-iterate {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-top: 1px solid var(--ps-border);
+  background: var(--ps-bg-soft);
+}
+
+.ps-iterate-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  background: var(--ps-bg);
+  color: var(--ps-ink);
+  padding: 5px 9px;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+}
+
+.ps-iterate-input:focus { border-color: var(--ps-accent); }
+.ps-iterate-input::placeholder { color: var(--ps-ink-faint); }
+
+.ps-status {
+  padding: 0 14px 8px;
+  font-size: 11.5px;
+  color: var(--ps-ink-faint);
+  flex: 0 0 auto;
+  min-height: 16px;
+}
+
+.ps-status[data-tone="error"] { color: var(--ps-danger); }
+
+/* ── 历史 ───────────────────────────────────────────────── */
+.ps-history-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 0;
+  border-top: 1px solid var(--ps-border);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ps-ink-faint);
+  flex: 0 0 auto;
+}
+
+.ps-link {
+  margin-left: auto;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--ps-ink-faint);
+  font-family: inherit;
+  font-size: 10.5px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ps-link:hover { color: var(--ps-danger); }
+
+.ps-history {
+  flex: 0 0 auto;
+  max-height: 128px;
+  overflow: auto;
+  padding: 2px 0 6px;
+}
+
+.ps-history-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  color: var(--ps-ink-soft);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.ps-history-item:hover { background: var(--ps-bg-soft); }
+
+/* 删除键平时不露头，鼠标扫过才出现，免得整列都在喊“删我” */
+.ps-history-del {
+  flex: 0 0 auto;
+  border: none;
+  background: none;
+  padding: 0 2px;
+  color: var(--ps-ink-faint);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s var(--ease, ease);
+}
+
+.ps-history-item:hover .ps-history-del { opacity: 1; }
+.ps-history-del:hover { color: var(--ps-danger); }
+
+.ps-history-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ps-history-time { flex: 0 0 auto; font-family: var(--ps-mono); color: var(--ps-ink-faint); }
+
+.ps-empty {
+  padding: 10px 14px;
+  font-size: 11.5px;
+  color: var(--ps-ink-faint);
+}
+
+/* ── 整页版（App 页面 / 卡片中心）在宽容器下改左右两栏 ────────
+   窄容器（面板挂在输入框上方）进不来这里，因为用了宽度门限。
+   三处（卡片、面板、整页）共用同一份 studio.js，只靠宽度决定排成几栏。 */
+@media (min-width: 760px) {
+  .ps-wide .ps-root {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.92fr) minmax(360px, 1.08fr);
+    grid-template-areas:
+      "modes    result"
+      "hint     result"
+      "editor   result"
+      "actions  result"
+      "status   result"
+      "histhead result"
+      "history  result";
+    grid-template-rows: auto auto auto auto auto auto minmax(90px, 1fr);
+    column-gap: 16px;
+    min-height: 100%;
+    padding: 0 16px;
+  }
+
+  .ps-wide .ps-modes { grid-area: modes; padding: 14px 0 6px; }
+  .ps-wide .ps-hint { grid-area: hint; padding: 4px 2px 0; }
+  .ps-wide .ps-editor { grid-area: editor; padding: 8px 0 0; }
+  .ps-wide .ps-actions { grid-area: actions; padding: 8px 0 10px; }
+  .ps-wide .ps-status { grid-area: status; padding: 0 2px 10px; }
+  .ps-wide .ps-history-head { grid-area: histhead; }
+  .ps-wide .ps-history { grid-area: history; max-height: none; }
+  .ps-wide .ps-history-item { padding-left: 2px; padding-right: 2px; }
+  .ps-wide .ps-result { grid-area: result; margin: 14px 0 16px; min-height: 380px; }
+  .ps-wide .ps-out { min-height: 0; max-height: none; }
+  .ps-wide .ps-diff { min-height: 0; max-height: none; }
+}

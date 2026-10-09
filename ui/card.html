@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提示词工坊</title>
+  <script src="./assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="./assets/studio.css">
+</head>
+<body data-hana-theme="inherit" data-surface="card">
+  <div id="root" data-surface="card"></div>
+  <script>
+    window.addEventListener("error", function (e) {
+      var root = document.getElementById("root");
+      if (root && !root.innerHTML) {
+        root.textContent = "界面加载失败：" + ((e && e.message) || "脚本错误");
+      }
+    }, true);
+  </script>
+  <script type="module" src="./assets/studio.js"></script>
+</body>
+</html>

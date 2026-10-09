@@ -1,0 +1,75 @@
+/* assets/panel-shell.css — 输入框上方面板的外壳（玻璃容器 + 顶栏 + 收起展开） */
+
+.psp {
+  --psp-bg: var(--bg-card, var(--bg, #fff));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--text, #222) 14%, transparent);
+  border-radius: 12px;
+  background: var(--psp-bg);
+  overflow: hidden;
+}
+
+.psp-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 0 12px;
+  height: 40px;
+  flex: 0 0 auto;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+}
+
+.psp[data-expanded="true"] .psp-head {
+  border-bottom-color: color-mix(in srgb, var(--text, #222) 12%, transparent);
+}
+
+.psp-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text, #26262b);
+  letter-spacing: 0.2px;
+}
+
+.psp-tools { margin-left: auto; display: flex; gap: 2px; }
+
+.psp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-muted, #8b8b96);
+  cursor: pointer;
+}
+
+.psp-icon:hover {
+  background: color-mix(in srgb, var(--text, #222) 8%, transparent);
+  color: var(--text, #26262b);
+}
+
+.psp-icon svg { width: 15px; height: 15px; }
+
+.psp-icon#psp-toggle svg { transition: transform 0.18s var(--ease, ease); }
+.psp[data-expanded="true"] .psp-icon#psp-toggle svg { transform: rotate(180deg); }
+
+.psp-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: none;
+}
+
+.psp[data-expanded="true"] .psp-body { display: block; }
+
+/* #root 的尺寸约束在 studio.css 里统一定义（min-height:100%），
+   这里再写 height:100% 会把内容锁死、压扁结果区。 */

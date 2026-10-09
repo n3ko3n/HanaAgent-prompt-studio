@@ -1,0 +1,43 @@
+{
+  "manifestVersion": 2,
+  "id": "prompt-studio",
+  "name": "提示词工坊",
+  "version": "0.4.2",
+  "description": "三档提示词优化：基础优化、专业优化、步骤化规划。默认不注入角色设定，结果只在你要用时才进对话。",
+  "entry": "index.js",
+  "capabilities": [
+    "app/models.infer",
+    "app/input.panels",
+    "app/input.status",
+    "app/ui.clipboard-write",
+    "app/tools.expose-to-model"
+  ],
+  "contributes": {
+    "cards": [
+      {
+        "id": "panel",
+        "title": "提示词工坊",
+        "description": "写一段糙提示词，按基础 / 专业 / 步骤化三档重写；改完可对着原文看差异，可复制带走。",
+        "route": "/app.html",
+        "cardForm": "structural",
+        "realization": "page",
+        "face": {
+          "image": "assets/cover.svg"
+        }
+      }
+    ],
+    "ui": {
+      "inputStatus": [
+        {
+          "id": "open",
+          "title": "打开提示词工坊",
+          "text": "✨",
+          "tooltip": "三档提示词优化",
+          "toolName": "prompt_studio_open"
+        }
+      ]
+    }
+  },
+  "icon": "assets/icon.svg",
+  "minAppVersion": "0.1050.9"
+}

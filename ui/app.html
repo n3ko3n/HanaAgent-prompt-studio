@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提示词工坊</title>
+  <script src="./assets/theme-boot.js"></script>
+  <link rel="stylesheet" href="./assets/studio.css">
+</head>
+<!--
+  整页版：给「应用页面」用的。和 panel.html 的区别只有两点：
+    · 没有面板外壳（没有顶栏、没有收起/展开），因为它不是挂在输入框上方的；
+    · body 带 ps-wide，宽容器下 studio.css 会把单列重排成左右两栏。
+  内容仍然是 studio.js 那一份，卡片、面板、整页三处共用。
+-->
+<body data-hana-theme="inherit" data-surface="page" class="ps-wide">
+  <div id="root"></div>
+  <script>
+    window.addEventListener("error", function (e) {
+      var root = document.getElementById("root");
+      if (root && !root.innerHTML) {
+        root.textContent = "加载失败：" + ((e && e.message) || "脚本错误");
+      }
+    }, true);
+  </script>
+  <script type="module" src="./assets/studio.js"></script>
+</body>
+</html>
